@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "@aws-sdk/client-comprehend": "^3.76.0",
+    "@aws-sdk/eventstream-marshaller": "^3.120.0",
+    "aws-signature-v4": "^1.4.0",
+    "body-parser": "^1.20.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.3",
+    "express-ws": "^5.0.2",
+    "fs": "^0.0.1-security",
+    "moment": "^2.29.2",
+    "node-vad": "^1.1.4",
+    "request": "^2.88.2",
+    "stream": "^0.0.2",
+    "uuid": "^8.3.2",
+    "websocket": "^1.0.34"
+  },
+  "engines": {
+    "node": "16.15"
+  }
+}
