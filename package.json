@@ -1,4 +1,13 @@
 {
+  "name": "aws-call-analytics-connector",
+  "version": "1.0.0",
+  "description": "Use this sample application to connect to Transcribe / Transcribe Medical & Call Analytics with 2-channel audio",
+  "main": "aws-medical-sample-client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tony Chan",
+  "license": "Apache-2.0",
   "dependencies": {
     "@aws-sdk/client-comprehend": "^3.76.0",
     "@aws-sdk/eventstream-marshaller": "^3.120.0",
