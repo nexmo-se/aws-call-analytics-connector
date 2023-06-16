@@ -13,7 +13,6 @@ const moment = require('moment');
 const { v4: uuidv4 } = require('uuid');
 
 const WebSocketClient = require('websocket').client;
-// console.log('>>> WebSocketClient:', WebSocketClient);
 
 // -- HTTP client --
 
@@ -178,9 +177,10 @@ async function sendPayloadToAws(channel, originalUuid, msg)  {
 
           } 
 
-          // console.log("Submit both channels audio payload to Amazon Transcribe"); 
-          // console.log("Payload on channel 0:", app.locals[`msg_${originalUuid}_0`] );
-          // console.log("Payload on channel 1:", app.locals[`msg_${originalUuid}_1`] );
+          //>>>>>>>>>>>>>>>
+          console.log("\n\nSubmit both channels audio payload to Amazon Transcribe"); 
+          console.log("\nPayload on channel 0:", app.locals[`msg_${originalUuid}_0`] );
+          console.log("\nPayload on channel 1:", app.locals[`msg_${originalUuid}_1`] );
 
           for (let i = 0; i < 160; i++) {
           // for(let i = 0; i < 2; i++) {
@@ -195,7 +195,8 @@ async function sendPayloadToAws(channel, originalUuid, msg)  {
 
           }
 
-          // console.log('mixPayload:', mixPayload);
+          //>>>>>>>>>>>>>>>
+          console.log('\nmixPayload:', mixPayload);
 
           const transcribePayload = convertPayload(mixPayload);
 
@@ -217,24 +218,16 @@ async function sendPayloadToAws(channel, originalUuid, msg)  {
 
 }
 
-
-
-
-
 //-------------- First call leg --------------
 //-- Customer call leg for this instance -----
 
 app.ws('/socket0', async (ws, req) => {
 
-  // manager.addWebsocket(ws);
-  // console.log("Global variable 1:", req.app.locals.globalvar1);
-  // app.locals.globalvar1 = "value_1";
-
   const originalUuid = req.query.original_uuid; 
   const peerUuid = req.query.peer_uuid;
   // let callerNumber; // value set in  ws.on('message' ... section
 
-  //-- Next 2 oarameters apply to Amazon Transcribe Medical
+  //-- Next 2 parameters apply to Amazon Transcribe Medical
 
   // possible values at this time: PRIMARYCARE, CARDIOLOGY, NEUROLOGY, ONCOLOGY, RADIOLOGY, or UROLOGY
   // const specialty = req.query.specialty;
@@ -319,16 +312,6 @@ app.ws('/socket0', async (ws, req) => {
   
   // TO DO: test calls with duration of over 300 sec
 
-  // const awsServiceOptions = {
-  //   query: 'language-code=en-US' +
-  //     '&media-encoding=' + mediaEncoding +
-  //     '&sample-rate=' + samplingRate +
-  //     '&session-id=' + sessionId +
-  //     '&specialty=' + specialty +
-  //     '&type=' + type,
-  //   expires: 300 // X-Amz-Expires = 300 max, or we get error 'X-Amz-Expires must be less than a week (in seconds) that is 604800' 
-  // };
-
   // transcribe 2-channel audio
   const awsServiceOptions = {
     query: 'language-code=en-US' +
@@ -352,7 +335,6 @@ app.ws('/socket0', async (ws, req) => {
   //     '&number-of-channels=2',
   //   expires: 300 // X-Amz-Expires = 300 max, or we get error 'X-Amz-Expires must be less than a week (in seconds) that is 604800' 
   // };
-
 
   console.log('awsHost:', awsHost);
   console.log('awsPath:', awsPath);
@@ -479,7 +461,7 @@ app.ws('/socket1', async (ws, req) => {
 
   // let callerNumber; // value set in  ws.on('message' ... section
 
-  //-- Next 2 oarameters apply to Amazon Transcribe Medical
+  //-- Next 2 parameters apply to Amazon Transcribe Medical
 
   // possible values at this time: PRIMARYCARE, CARDIOLOGY, NEUROLOGY, ONCOLOGY, RADIOLOGY, or UROLOGY
   // const specialty = req.query.specialty;
