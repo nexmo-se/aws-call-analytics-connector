@@ -178,25 +178,24 @@ async function sendPayloadToAws(channel, originalUuid, msg)  {
           } 
 
           //>>>>>>>>>>>>>>>
-          console.log("\n\nSubmit both channels audio payload to Amazon Transcribe"); 
-          console.log("\nPayload on channel 0:", app.locals[`msg_${originalUuid}_0`] );
-          console.log("\nPayload on channel 1:", app.locals[`msg_${originalUuid}_1`] );
+          // console.log("\n\nSubmit both channels audio payload to Amazon Transcribe"); 
+          // console.log("\nPayload on channel 0:", app.locals[`msg_${originalUuid}_0`] );
+          // console.log("\nPayload on channel 1:", app.locals[`msg_${originalUuid}_1`] );
 
-          for (let i = 0; i < 160; i++) {
-          // for(let i = 0; i < 2; i++) {
+          for (let i = 0; i < 320; i++) {
 
-            // console.log("4 bytes from app.locals[`msg_${originalUuid}_0`]:");
-            // console.log( Buffer.from(app.locals[`msg_${originalUuid}_0`].subarray(i*4, (i*4)+4)) );
-            mixPayload = Buffer.concat([mixPayload, Buffer.from(app.locals[`msg_${originalUuid}_0`].subarray(i*4, (i*4)+4))]);
+            // console.log("2 bytes from app.locals[`msg_${originalUuid}_0`]:");
+            // console.log( Buffer.from(app.locals[`msg_${originalUuid}_0`].subarray(i*2, (i*2)+2)) );
+            mixPayload = Buffer.concat([mixPayload, Buffer.from(app.locals[`msg_${originalUuid}_0`].subarray(i*2, (i*2) + 2))]);
 
-            // console.log("4 bytes from app.locals[`msg_${originalUuid}_1`]:");
+            // console.log("2 bytes from app.locals[`msg_${originalUuid}_1`]:");
             // console.log( Buffer.from(app.locals[`msg_${originalUuid}_1`].subarray(i*4, (i*4)+4)) );
-            mixPayload = Buffer.concat([mixPayload, Buffer.from(app.locals[`msg_${originalUuid}_1`].subarray(i*4, (i*4)+4))]);
+            mixPayload = Buffer.concat([mixPayload, Buffer.from(app.locals[`msg_${originalUuid}_1`].subarray(i*2, (i*2) + 2))]);
 
           }
 
           //>>>>>>>>>>>>>>>
-          console.log('\nmixPayload:', mixPayload);
+          // console.log('\nmixPayload:', mixPayload);
 
           const transcribePayload = convertPayload(mixPayload);
 
