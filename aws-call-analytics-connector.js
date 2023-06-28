@@ -122,7 +122,6 @@ async function sendPayloadToAws(channel, originalUuid, msg)  {
 
     app.locals[`queue_${originalUuid}_${channel}`].push(msg);
     
-    // app.locals[`last_msg_${originalUuid}_${channel}`] = msg;
     app.locals[`last_msg_${originalUuid}_${channel}`] = Buffer.from(msg);
 
     // console.log("app.locals[`last_msg_${originalUuid}_${channel}`]:", app.locals[`last_msg_${originalUuid}_${channel}`]);
@@ -138,19 +137,14 @@ async function sendPayloadToAws(channel, originalUuid, msg)  {
 
           let mixPayload = Buffer.alloc(0);
 
-          // app.locals[`msg_${originalUuid}_0`] = app.locals[`queue_${originalUuid}_0`].shift();  // dequeue from queue # 0
-
           app.locals[`msg_${originalUuid}_0`] = Buffer.from(app.locals[`queue_${originalUuid}_0`].shift());  // dequeue from queue # 0
 
           if (app.locals[`queue_${originalUuid}_1`].length != 0) { // check queue # 1
             
             // console.log(`Queue ${1 - channel} is not empty`);
 
-            // app.locals[`msg_${originalUuid}_1`] = app.locals[`queue_${originalUuid}_1`].shift();
-            // app.locals[`msg_${originalUuid}_1`] = Buffer.from(app.locals[`queue_${originalUuid}_1`].shift(), "binary");
             app.locals[`msg_${originalUuid}_1`] = Buffer.from(app.locals[`queue_${originalUuid}_1`].shift());
 
-            // app.locals[`last_msg_${originalUuid}_1`] = app.locals[`msg_${originalUuid}_1`];
             app.locals[`last_msg_${originalUuid}_1`] = Buffer.from(app.locals[`msg_${originalUuid}_1`]);
 
             app.locals[`queue_${originalUuid}_1`].length = Math.min(app.locals[`queue_${originalUuid}_1`].length, maxQueueSize); // limit size of queue # 1 in case it overruns
@@ -439,7 +433,22 @@ app.ws('/socket0', async (ws, req) => {
   //--
 
   ws.on('close', async () => {
+
+    // close WebSocket to AWS
+    app.locals[`clientConnection_${originalUuid}`].close();
     
+    // reset all global variables
+    setTimeout(() => {
+      app.locals[`clientConnection_${originalUuid}`] = null; 
+      app.locals[`awsWsClient_${originalUuid}`] = null;   
+
+      app.locals[`queue_${originalUuid}_0`] = null;
+      app.locals[`queue_${originalUuid}_1`] = null;
+      app.locals[`last_msg_${originalUuid}_0`] = null;
+      app.locals[`last_msg_${originalUuid}_1`] = null;
+      app.locals[`mixPayload_{originalUuid}`] = null;
+    }, 3000);
+
     console.log("socket closed");
 
   });
